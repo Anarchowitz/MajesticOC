@@ -3,8 +3,7 @@ import requests
 from aiogram import Bot, Dispatcher, executor
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-json = requests.get("https://api1master.majestic-files.com/meta/servers?region=ru").json()
-bot = Bot('YOUR_TOKEN_ENTER_HERE_BRO_WHY_I_DO_IT_IDK_LOLLLLLL') # maded by dermaprojects
+bot = Bot('') # maded by dermaprojects
 dp = Dispatcher(bot)
 
 klava = ReplyKeyboardMarkup()
@@ -24,11 +23,12 @@ for button in buttons:
 async def start_command(message):
     await message.answer(f"Привет, {message.chat.first_name}👋.\nMajesticOC\nПриятного использования\n(MajesticOnlineChecker)", reply_markup=klava)
 def get_players(server):
+    json = requests.get("https://api1master.majestic-files.com/meta/servers?region=ru").json()
     a = json["result"]["servers"][server - 1]["players"]
     return a
 @dp.message_handler(text=buttons)
 async def check_server(message):
-    server_name = message.text.replace('. ', '').split('.')[-1]
+    server_name = message.text.replace('. ', '')[1:]
     server_number = int(message.text.split('.')[0])
     players = get_players(server_number)
     if players > 2000:
